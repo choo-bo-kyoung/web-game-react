@@ -1,5 +1,8 @@
 <html>
-  <head> </head>
+  <head>
+    <meta charset="utf-8" />
+    <title>웹 게임</title>
+  </head>
   <body>
     <div id="root"></div>
     <script
@@ -18,12 +21,14 @@
       const e = React.createElement;
 
       class LikeButton extends React.Component {
+        // 컴포넌트
         constructor(props) {
           super(props);
-          this.state = { liked: false };
+          this.state = { liked: false }; // 데이터
         }
 
         render() {
+          // 화면
           if (this.state.liked) {
             return "You liked this.";
           }
@@ -40,7 +45,7 @@
       ReactDOM.render(
         React.createElement(LikeButton),
         document.querySelector("#root")
-      );
+      ); // LikeButton이라는 컴포넌트를 root안에 그린다.
     </script>
   </body>
 </html>

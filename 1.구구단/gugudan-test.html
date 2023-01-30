@@ -12,72 +12,47 @@
     <body>
         <div id="root"></div>
         <script type="text/babel">
-            class GuGuDan extends React.Component {
-                constructor(props) {
-                    super(props);
-                    this.state = {
-                        first: Math.ceil(Math.random() * 9),
-                        second: Math.ceil(Math.random() * 9),
-                        value: "",
-                        result: "",
-                    };
-                }
+            const GuGuDan = () => {
+                const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+                const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+                const [value, setValue] = React.useState("");
+                const [result, setResult] = React.useState("");
+                const inputRef = React.useRef(null); // 초기값(null)은 넣어도 되고, 안넣어도 되고!
 
-                onSubmit = (e) => {
+                const onChangeInput = (e) => {
+                    setValue(e.target.value);
+                };
+
+                const onSubmitForm = (e) => {
                     e.preventDefault();
                     if (parseInt(this.state.value) === this.state.first * this.state.second) {
-                        this.setState((prevState) => {
-                            //prevState : 이전값을 돌려주는 api
-                            return {
-                                result: `정답 : ${prevState.value}`,
-                                first: Math.ceil(Math.random() * 9),
-                                second: Math.ceil(Math.random() * 9),
-                                value: "",
-                            };
-                        });
-                        this.input.focus();
+                        setResult("정답: " + value);
+                        setFirst(Math.ceil(Math.random() * 9));
+                        setSecond(Math.ceil(Math.random() * 9));
+                        setValue("");
+                        inputRef.current.focus();
                     } else {
-                        this.setState({
-                            result: "땡땡땡!!!!!!",
-                            value: "",
-                        });
-                        this.input.focus();
+                        setResult("땡");
+                        setValue("");
+                        inputRef.current.focus(); // current 필수!
                     }
                 };
 
-                onChange = (e) => {
-                    this.setState({ value: e.target.value });
-                };
+                return (
+                    <React.Fragment>
+                        <div>
+                            {first} 곱하기 {second}는?
+                        </div>
+                        <form onSubmit={onSubmitForm}>
+                            <input ref={inputRef} onChange={onChangeInput} value={value} />
+                            <button>입력할거에용</button>
+                        </form>
+                        <div id="result">{result}</div>
+                    </React.Fragment>
+                );
+            };
 
-                onRef = (e) => {
-                    this.input = e;
-                };
-
-                input;
-
-                render() {
-                    //setState를 할 때 자동 render가 됨. => 좋지않은 현상
-                    return (
-                        <React.Fragment>
-                            <div>
-                                {this.state.first}곱하기 {this.state.second}는?
-                            </div>
-                            <form onSubmit={this.onSubmit}>
-                                <input ref={this.onRef} type="number" value={this.state.value} onInput={this.onChange} />
-                                <button>입력!</button>
-                            </form>
-                            <div>{this.state.result}</div>
-                        </React.Fragment>
-                    );
-                }
-            }
-
-            ReactDOM.render(
-                <div>
-                    <GuGuDan />
-                </div>,
-                document.querySelector("#root")
-            );
+            ReactDOM.render(<GuGuDan />, document.querySelector("#root"));
         </script>
     </body>
 </html>

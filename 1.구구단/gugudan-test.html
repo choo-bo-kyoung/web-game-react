@@ -13,6 +13,7 @@
         <div id="root"></div>
         <script type="text/babel">
             const GuGuDan = () => {
+                //state를 바꾸면 함수 자체가 다시 실행된다
                 const [first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
                 const [second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
                 const [value, setValue] = React.useState("");
@@ -25,7 +26,7 @@
 
                 const onSubmitForm = (e) => {
                     e.preventDefault();
-                    if (parseInt(this.state.value) === this.state.first * this.state.second) {
+                    if (parseInt(value) === first * second) {
                         setResult("정답: " + value);
                         setFirst(Math.ceil(Math.random() * 9));
                         setSecond(Math.ceil(Math.random() * 9));
@@ -38,6 +39,7 @@
                     }
                 };
 
+                console.log("랜더링");
                 return (
                     <React.Fragment>
                         <div>
